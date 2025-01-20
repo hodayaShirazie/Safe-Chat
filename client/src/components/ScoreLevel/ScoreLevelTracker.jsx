@@ -4,7 +4,7 @@ import styles from './ScoreLevelTracker.module.css';
 const ScoreLevelTracker = ({ currentLevel, totalLevels, score }) => {
   return (
     <div className={styles.container}>
-      <div className={styles.levelTracker}>
+      {/* <div className={styles.levelTracker}>
         <h3>Level Progress</h3>
         <div className={styles.levelSquares}>
           {Array.from({ length: totalLevels }).map((_, index) => (
@@ -14,9 +14,9 @@ const ScoreLevelTracker = ({ currentLevel, totalLevels, score }) => {
             ></div>
           ))}
         </div>
-      </div>
+      </div> */}
       <div className={styles.score}>
-        <h3>Score</h3>
+        <h3>SCORE</h3>
         <div className={styles.scoreValue}>{score}</div>
       </div>
     </div>

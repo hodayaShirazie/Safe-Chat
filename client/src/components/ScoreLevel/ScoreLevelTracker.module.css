@@ -1,4 +1,4 @@
-.container {
+/* .container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,11 +6,33 @@
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #f8d1d4;
+  background-color: #bc9a9d;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+} */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally */
+  justify-content: center; /* Centers content vertically */
+  position: fixed; /* Keeps the sidebar fixed on the left side */
+  left: 0; /* Align to the left side of the screen */
+  top: 0; /* Start from the top */
+  height: 100vh; /* Full viewport height */
+  background-color: #bc9a9d; /* Background color for the sidebar */
+  padding: 20px;
+  border-radius: 0 12px 12px 0; /* Rounded corners only on the right side */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Floating shadow effect */
+  width: 100px; /* Set a fixed width for the sidebar */
+  z-index: 10; /* Ensure it floats over other content */
 }
+
+
+
+
+
 
 .levelTracker {
   margin-bottom: 20px;

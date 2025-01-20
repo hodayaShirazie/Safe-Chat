@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <h1 className={styles.headline}>The Game</h1>
+      <h1 className={styles.headline}>Check The Chat</h1>
       {!showAuthForm && (
         <button
           className={styles.startPlayingButton}

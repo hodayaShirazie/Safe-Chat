@@ -1,4 +1,4 @@
-.home {
+/* .home {
   text-align: center;
   padding: 20px;
 }
@@ -35,4 +35,57 @@
 .startPlayingButton:hover {
   background-color: #403640;
   transform: scale(1.05);
+}
+
+ */
+
+
+/* Import Montserrat font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+/* General container for the home page */
+.home {
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.6)
+    ),
+    url('https://source.unsplash.com/1600x900/?chat,technology') no-repeat center center/cover; /* Add a background image URL */
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Headline styling */
+.headline {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #ff6f91; /* Bright pink for focus */
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700; /* Bold text for headline */
+}
+
+/* Start button styling */
+.startPlayingButton {
+  padding: 15px 40px;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #ff6f91, #ff8fa3);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-weight: 700; /* Bold text for the button */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.startPlayingButton:hover {
+  background-color: #e65c80; /* Slightly darker pink on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }

@@ -1,96 +1,141 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import styles from "./ChatGame.module.css";
 import { DuckContext } from "../../context/DuckContext";
-import ScoreLevelTracker from "../../components/ScoreLevel/ScoreLevelTracker"; // Import ScoreLevelTracker
+import ScoreLevelTracker from "../../components/ScoreLevel/ScoreLevelTracker";
 
 const ChatGame = () => {
-    const {
-        situations,
-        currentSituationIndex,
-        isGameActive,
-        handleAnswer,
-        currentLevel,
-        score,
-    } = useContext(DuckContext); // Access score and current level from context
-    const [chatHistory, setChatHistory] = useState([]);
-    const chatContentRef = useRef(null);
+  const {
+    situations,
+    currentSituationIndex,
+    setCurrentSituationIndex,
+    setIsGameActive,
+    handleAnswer,
+    score,
+    startNewGame,
+  } = useContext(DuckContext);
 
-    // Function to scroll to bottom
-    const scrollToBottom = () => {
-        if (chatContentRef.current) {
-            chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
-        }
-    };
+  const [chatHistory, setChatHistory] = useState([]);
+  const [gameEnded, setGameEnded] = useState(false);
+  const chatContentRef = useRef(null);
 
-    // Scroll to bottom when chat history changes
-    useEffect(() => {
-        scrollToBottom();
-    }, [chatHistory]);
-
-    if (!isGameActive) {
-        return <div className={styles.container}>Game is not active. Start a new game.</div>;
+  // Scroll to the bottom whenever chat history changes
+  useEffect(() => {
+    if (chatContentRef.current) {
+      chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
     }
+  }, [chatHistory]);
 
-    if (!situations.length) return <div>Loading...</div>;
+  // Seed the first question when the game starts
+  useEffect(() => {
+    if (situations.length > 0 && chatHistory.length === 0) {
+      setChatHistory([
+        { type: "received", text: situations[currentSituationIndex].text },
+      ]);
+    }
+  }, [situations, currentSituationIndex, chatHistory.length]);
 
-    const currentSituation = situations[currentSituationIndex];
+  // Prevent the game from resetting if answers do not exist
+  const endGameGracefully = () => {
+    if (gameEnded) return;
+    console.log("end");
+    setGameEnded(true);
 
-    const handleAnswerClick = (answer) => {
-        setChatHistory((prev) => [
+    // Add "Game Ended" message to the chat
+    setChatHistory((prev) => [
+      ...prev,
+      { type: "received", text: "Game Ended" },
+    ]);
+
+    // Deactivate the game, but do not reset the chat or entire component
+    setIsGameActive(false);
+  };
+
+  const handleAnswerClick = (answer) => {
+    setChatHistory((prev) => [...prev, { type: "self", text: answer.text }]);
+    handleAnswer(answer.isCorrect);
+
+    if (answer.nextId) {
+      const nextIndex = situations.findIndex((s) => s.id === answer.nextId);
+      console.log(nextIndex);
+      if (nextIndex !== -1) {
+        const nextText = situations[nextIndex].text;
+        setTimeout(() => {
+          setCurrentSituationIndex(nextIndex);
+          setChatHistory((prev) => [
             ...prev,
-            { type: "received", text: currentSituation.text },
-            { type: "self", text: answer.text },
-        ]);
-        handleAnswer(answer.isCorrect);
-    };
+            { type: "received", text: nextText },
+          ]);
+        }, 1000);
+      } else {
+        console.log(33);
+        endGameGracefully();
+      }
+    } else {
+        console.log(4);
+      endGameGracefully();
+    }
+  };
 
-    return (
-        <div className={styles.pageContainer}>
-            {/* ScoreLevelTracker moved to ChatGame */}
-            <ScoreLevelTracker
-                currentLevel={currentLevel}
-                totalLevels={5} // You can adjust the total levels here
-                score={score}
-            />
-            <div className={styles.chatContainer}>
-                <div className={styles.chatHeader}>
-                    <div className={styles.profilePicture}></div>
-                    <div className={styles.username}>Teresa Lai</div>
-                </div>
+  if (!situations.length) {
+    return <div>Loading...</div>;
+  }
 
-                <div className={styles.scrollableContent}>
-                    <div className={styles.chatContent} ref={chatContentRef}>
-                        {chatHistory.map((message, index) => (
-                            <div
-                                key={index}
-                                className={`${styles.message} ${
-                                    message.type === "received" ? styles.received : styles.self
-                                }`}
-                            >
-                                {message.text}
-                            </div>
-                        ))}
+  const currentSituation = situations[currentSituationIndex];
 
-                        <div className={`${styles.message} ${styles.received}`}>
-                            {currentSituation.text}
-                        </div>
-                    </div>
+  return (
+    <div className={`${styles.pageContainer} ${gameEnded ? styles.darkChat : ""}`}>
+      {/* ScoreLevelTracker moved to ChatGame */}
+      <ScoreLevelTracker
+        currentLevel={5}
+        totalLevels={5} // You can adjust the total levels here
+        score={score}
+      />
 
-                    <div className={styles.answers}>
-                        {currentSituation.answers.map((answer) => (
-                            <button
-                                key={answer.id}
-                                className={styles.answerButton}
-                                onClick={() => handleAnswerClick(answer)}
-                            >
-                                {answer.text}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
+      <div className={styles.chatContainer}>
+        <div className={styles.chatHeader}>
+          <div className={styles.profilePicture}></div>
+          <div className={styles.username}>Teresa Lai</div>
         </div>
-    );
+
+        <div className={styles.scrollableContent} ref={chatContentRef}>
+          {chatHistory.map((message, index) => (
+            <div
+              key={index}
+              className={`${styles.message} ${
+                message.type === "received" ? styles.received : styles.self
+              }`}
+            >
+              {message.text}
+            </div>
+          ))}
+
+          {gameEnded && (
+            <div className={styles.gameOverMessage}>
+              <p>Game Ended</p>
+              <button className={styles.playAgainButton} onClick={startNewGame}>
+                Start New Game
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Display answer buttons if the game is not ended and there are answers */}
+        {!gameEnded && currentSituation.answers.length > 0 && (
+          <div className={styles.answers}>
+            {currentSituation.answers.map((answer) => (
+              <button
+                key={answer.id}
+                className={styles.answerButton}
+                onClick={() => handleAnswerClick(answer)}
+              >
+                {answer.text}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ChatGame;
