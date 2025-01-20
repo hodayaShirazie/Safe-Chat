@@ -1,0 +1,22 @@
+
+.red-flag-chat-page {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .red-flag-button {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .chat-game-container {
+    width: 60%;
+    max-width: 800px;
+    margin: auto;
+  }
+  

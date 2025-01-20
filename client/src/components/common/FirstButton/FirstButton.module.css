@@ -1,19 +1,18 @@
-.button {
-  padding: 10px 20px;
-  background-color: #FF7D9C;
-  color: white;
+/* Style for the Start Playing button */
+.startPlayingButton {
+  padding: 15px 40px; /* Increase padding for a larger button */
+  font-size: 20px; /* Slightly larger font */
+  background-color: #53474F;
+  color: #ffffff;
   border: none;
-  border-radius: 4px;
+  border-radius: 15px; /* More rounded corners */
   cursor: pointer;
-  font-size: 16px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  margin-bottom: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
-.button:hover {
-  background-color: #ff517a;
+.startPlayingButton:hover {
+  background-color: #403640;
+  transform: scale(1.1); /* Make hover effect slightly more noticeable */
 }
-
-.button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-  

@@ -1,0 +1,66 @@
+.authForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8d7da;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    margin: 0 auto;
+  }
+  
+  .authForm h2 {
+    margin-bottom: 20px;
+    color: #53474F;
+  }
+  
+  .authForm form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between inputs */
+    width: 100%;
+  }
+  
+  .authForm input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .authForm button {
+    padding: 10px;
+    background-color: #53474F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .authForm button:hover {
+    background-color: #403640;
+  }
+  
+  .authForm .error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .authForm .closeButton {
+    background-color: #ccc;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+
+.authForm button {
+    margin-bottom: 10px; /* Adds spacing between buttons */
+  }
+    
