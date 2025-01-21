@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'; // Import PropTypes
 import styles from './ScoreLevelTracker.module.css';
 
-const ScoreLevelTracker = ({ currentLevel, totalLevels, score }) => {
+const ScoreLevelTracker = ({  score }) => {
   return (
     <div className={styles.container}>
       {/* <div className={styles.levelTracker}>

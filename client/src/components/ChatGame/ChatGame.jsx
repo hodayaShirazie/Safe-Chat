@@ -2,6 +2,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import styles from "./ChatGame.module.css";
 import { DuckContext } from "../../context/DuckContext";
 import ScoreLevelTracker from "../../components/ScoreLevel/ScoreLevelTracker";
+import Confetti from 'react-confetti';
 
 const ChatGame = () => {
   const {
@@ -17,6 +18,7 @@ const ChatGame = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
   const chatContentRef = useRef(null);
+  const [isConfettiVisible, setIsConfettiVisible] = useState(false);
 
   // Scroll to the bottom whenever chat history changes
   useEffect(() => {
@@ -57,7 +59,7 @@ const ChatGame = () => {
     if (answer.nextId) {
       const nextIndex = situations.findIndex((s) => s.id === answer.nextId);
       console.log(nextIndex);
-      if (nextIndex !== -1) {
+      if (nextIndex !== 3) {
         const nextText = situations[nextIndex].text;
         setTimeout(() => {
           setCurrentSituationIndex(nextIndex);
@@ -68,7 +70,15 @@ const ChatGame = () => {
         }, 1000);
       } else {
         console.log(33);
-        endGameGracefully();
+        const nextText = situations[nextIndex].text;
+        setTimeout(() => {
+          setCurrentSituationIndex(nextIndex);
+          setChatHistory((prev) => [
+            ...prev,
+            { type: "received", text: nextText },
+          ]);
+        }, 1000);
+        setIsConfettiVisible(true);
       }
     } else {
         console.log(4);
@@ -84,10 +94,10 @@ const ChatGame = () => {
 
   return (
     <div className={`${styles.pageContainer} ${gameEnded ? styles.darkChat : ""}`}>
+            {isConfettiVisible && <Confetti />}
+
       {/* ScoreLevelTracker moved to ChatGame */}
       <ScoreLevelTracker
-        currentLevel={5}
-        totalLevels={5} // You can adjust the total levels here
         score={score}
       />
 
